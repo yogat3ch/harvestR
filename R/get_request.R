@@ -52,7 +52,7 @@ get_request <- function(url = NULL,
     }
     return(content)
   } else{
-    stop(httr::stop_for_status(reponse))
+    stop(httr::stop_for_status(response))
   }
 }
 
