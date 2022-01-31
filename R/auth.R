@@ -1,4 +1,16 @@
 #' \lifecycle{experimental}
+#' @title Get User-Agent Environmental Variable
+#' @description Retrieve the harvestR HARVESTR_USER_AGENT variable
+#' @export
+
+get_user_agent <- function() {
+  out <- Sys.getenv("HARVESTR_USER_AGENT")
+  if (!nzchar(out))
+    rlang::abort("Harvest requires a User-Agent header.\nSee `setup_harvestR` for details.")
+  out
+}
+
+#' \lifecycle{experimental}
 #' @title Get Harvest account ID from system environment variables
 #' @description Retrieve the harvestR account ID from system environment variables under the default alias HARVEST_ACCOUNT_ID
 #'
