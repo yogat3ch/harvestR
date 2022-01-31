@@ -55,8 +55,7 @@ make_time_entries_tbl <- function(x) {
 #'
 #' @return \code{(tbl)} of changed entries with a `prev_hours` column with the previous amount of hours and a `difference` column with the total hours added
 #' @export
-#'
-#' @examples
+
 round_time_entries <- function (entries = list_all_time_entries(from = lubridate::floor_date(Sys.Date() - 2, "week")), round_hours = .25) {
   out <- purrr::pmap_dfr(entries, ~{
     .x <- list(...)
