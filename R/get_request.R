@@ -5,7 +5,7 @@
 #'
 #' @param url Character url of the get request.
 #' @param user Character account number (e.g. user = '12345') for authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.
-#' @param key  Character key (e.g. key = 'Bearer <secret key>') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.
+#' @param key  Character key (e.g. key = 'Bearer [secret key]') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.
 #' @param ... Additional arguments, potentially passed to other functions - see details in \link[harvestR]{get_table}
 #'
 #' @return contents of the API response
@@ -40,7 +40,7 @@ get_request <- function(url = NULL,
                           verb = "GET",
                           config = httr::config(input_params$httr_config_opts, token = input_params$token),
                           httr::add_headers(.headers = c("Harvest-Account-ID" = user,
-                                                         Authorization = key)),
+                                                         Authorization = paste0("Bearer ", key),
                           times = input_params$times)
 
   if(!httr::http_error(response)){
