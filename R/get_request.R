@@ -40,7 +40,7 @@ get_request <- function(url = NULL,
                           verb = "GET",
                           config = httr::config(input_params$httr_config_opts, token = input_params$token),
                           httr::add_headers(.headers = c("Harvest-Account-ID" = user,
-                                                         Authorization = paste0("Bearer ", key),
+                                                         Authorization = paste0("Bearer ", key))),
                           times = input_params$times)
 
   if(!httr::http_error(response)){
