@@ -119,8 +119,8 @@ get_table <- function(table = NULL,
 
   # Create URL --------------------------------------------------------------
   harvestR:::check_date_format(query = query)
-  url <- paste0('v2/', table) %>% httr::modify_url(url="https://api.harvestapp.com",
-                                                   path=.,
+  url <- httr::modify_url(url="https://api.harvestapp.com",
+                                                   path= c("v2", table),
                                                    query=query)
 
   # Get Request -------------------------------------------------------------
