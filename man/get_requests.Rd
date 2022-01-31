@@ -13,7 +13,7 @@ get_requests(urls, table, user, key, ...)
 
 \item{user}{Character account number (e.g. user = '12345') for authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.}
 
-\item{key}{Character key (e.g. key = 'Bearer <secret key>') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.}
+\item{key}{Character key (e.g. key = 'Bearer \link{secret key}') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.}
 
 \item{...}{Additional arguments, potentially passed to other functions - see details in \link[harvestR]{get_table}}
 }
@@ -30,5 +30,5 @@ Submits multiple get requests to the Harvest API v2. Supports parallel execution
 \url{https://help.getharvest.com/api-v2/introduction/overview/general}
 }
 \seealso{
-[future::plan()] for details regarding how to implement parallel api calls
+\code{\link[future:plan]{future::plan()}} for details regarding how to implement parallel api calls
 }

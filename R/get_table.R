@@ -4,10 +4,10 @@
 #' @description Submits get requests to the Harvest API v2 with options configured for authentication, parallelism, and logging
 #' @param table Character table name to be submitted to the Harvest API v2. Refer to \href{https://help.getharvest.com/api-v2}{Harvest API v2}.
 #' @param user Character account number (e.g. user = '12345') for authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}. Defaults to `get_harvest_account()`
-#' @param key Character key (e.g. key = 'Bearer <secret key>') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}. Defaults to `get_harvest_pat()`
+#' @param key Character key (e.g. key = 'Bearer [secret key]') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}. Defaults to `get_harvest_pat()`
 #' @param plan_options List; list of parameters passed to \code{future::plan}. The strategy parameter is required to implement parallel requests, see \href{https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html}{Future Package Overview} for more details.
 #' @param quiet Logical; controls harvestR messaging, TRUE returns only errors in the console and FALSE returns messages, warnings, and errors. Does not impact deprecation warnings.
-#' @param ... Additional arguments forwarded to `httr::RETRY()` and `httr::config()`. Refer to details for more information.
+#' @param ... Additional arguments forwarded to \link[httr]{RETRY} and \link[httr]{config}. Refer to details for more information.
 #' @inheritParams get_request
 #' @inheritParams get_requests
 #'
@@ -119,8 +119,8 @@ get_table <- function(table = NULL,
 
   # Create URL --------------------------------------------------------------
   harvestR:::check_date_format(query = query)
-  url <- paste0('v2/', table) %>% httr::modify_url(url="https://api.harvestapp.com",
-                                                   path=.,
+  url <- httr::modify_url(url="https://api.harvestapp.com",
+                                                   path= c("v2", table),
                                                    query=query)
 
   # Get Request -------------------------------------------------------------

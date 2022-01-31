@@ -8,6 +8,6 @@ check_date_format(query = NULL)
 }
 \description{
 Harvest API v2 accepts a few date parameters which have strict requirements. Date parameters must
-be in `yyyy-mm-dd` format. `yyyy/mm/dd`, `mm-dd-yyyy`, `yyyy-m-d`,  etc. will result in failure.
+be in \code{yyyy-mm-dd} format. \code{yyyy/mm/dd}, \code{mm-dd-yyyy}, \code{yyyy-m-d},  etc. will result in failure.
 This function simply stops the user if they try an incorrect format.
 }

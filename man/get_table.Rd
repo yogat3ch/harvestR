@@ -21,15 +21,15 @@ get_table(
 \arguments{
 \item{table}{Character table name to be submitted to the Harvest API v2. Refer to \href{https://help.getharvest.com/api-v2}{Harvest API v2}.}
 
-\item{user}{Character account number (e.g. user = '12345') for authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}. Defaults to `get_harvest_account()`}
+\item{user}{Character account number (e.g. user = '12345') for authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}. Defaults to \code{get_harvest_account()}}
 
-\item{key}{Character key (e.g. key = 'Bearer <secret key>') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}. Defaults to `get_harvest_pat()`}
+\item{key}{Character key (e.g. key = 'Bearer \link{secret key}') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}. Defaults to \code{get_harvest_pat()}}
 
 \item{plan_options}{List; list of parameters passed to \code{future::plan}. The strategy parameter is required to implement parallel requests, see \href{https://cran.r-project.org/web/packages/future/vignettes/future-1-overview.html}{Future Package Overview} for more details.}
 
 \item{quiet}{Logical; controls harvestR messaging, TRUE returns only errors in the console and FALSE returns messages, warnings, and errors. Does not impact deprecation warnings.}
 
-\item{...}{Additional arguments forwarded to `httr::RETRY()` and `httr::config()`. Refer to details for more information.}
+\item{...}{Additional arguments forwarded to \link[httr]{RETRY} and \link[httr]{config}. Refer to details for more information.}
 }
 \value{
 dataframe with contents of requested Harvest table
@@ -40,12 +40,11 @@ Submits get requests to the Harvest API v2 with options configured for authentic
 \details{
 \lifecycle{maturing}
 
-
 Description of ... parameters. Additional arguments are forwarded to config.
 \itemize{
-   \item \code{times} integer; Forwarded to RETRY, maximum number of requests to attempt. Defaults to 3.
-   \item \code{token} httr-token; Forwarded to config, an OAuth token (1.0 or 2.0).
-   }
+\item \code{times} integer; Forwarded to RETRY, maximum number of requests to attempt. Defaults to 3.
+\item \code{token} httr-token; Forwarded to config, an OAuth token (1.0 or 2.0).
+}
 }
 \examples{
 \dontrun{
@@ -82,7 +81,7 @@ token = my_token)
 \href{https://cran.r-project.org/web/packages/future/vignettes/future-2-output.html}{Future Package Output}
 }
 \seealso{
-`future::plan()` for more detail regarding how to implement parallel api calls
+\code{future::plan()} for more detail regarding how to implement parallel api calls
 
-`httr::httr_options()` for more detail regarding httr configurations
+\code{httr::httr_options()} for more detail regarding httr configurations
 }

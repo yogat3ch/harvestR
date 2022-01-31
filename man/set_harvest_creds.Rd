@@ -16,5 +16,5 @@ Retrieve the Harvest account ID & personal access token from the keyring and set
 \lifecycle{experimental}
 }
 \seealso{
-[keyring::key_get()] which this function wraps.
+\code{\link[keyring:key_get]{keyring::key_get()}} which this function wraps.
 }

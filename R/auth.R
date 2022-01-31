@@ -1,4 +1,16 @@
 #' \lifecycle{experimental}
+#' @title Get User-Agent Environmental Variable
+#' @description Retrieve the harvestR HARVESTR_USER_AGENT variable
+#' @export
+
+get_user_agent <- function() {
+  out <- Sys.getenv("HARVESTR_USER_AGENT")
+  if (!nzchar(out))
+    rlang::abort("Harvest requires a User-Agent header.\nSee `setup_harvestR` for details.")
+  out
+}
+
+#' \lifecycle{experimental}
 #' @title Get Harvest account ID from system environment variables
 #' @description Retrieve the harvestR account ID from system environment variables under the default alias HARVEST_ACCOUNT_ID
 #'
@@ -21,7 +33,6 @@ get_harvest_account <- function() {
 get_harvest_pat <- function() {
   pat <- Sys.getenv('HARVEST_PAT')
   assertthat::assert_that(pat != "", msg = "HARVEST_PAT is empty, please update and try again. For help updating see ?create_harvest_creds().")
-  assertthat::assert_that(grepl('^Bearer ', pat), msg = "HARVEST_PAT must start with `Bearer `, please update and try again. For help updating see ?create_harvest_creds().")
   return(pat)
 }
 
@@ -107,6 +118,6 @@ ask_harvest_pat <- function (msg="Harvest API Bearer Token"){
   pat <- getPass::getPass(msg)
   assertthat::assert_that(!is.null(pat), msg = "NULL tokens are not accepted, please try again. For more info see ?create_harvest_creds().")
   assertthat::assert_that(pat != "", msg = "Blank tokens are not accepted, please try again. For more info see ?create_harvest_creds().")
-  assertthat::assert_that(grepl('^Bearer ', pat), msg = "Tokens must start with `Bearer `, please try again. For more info see ?create_harvest_creds().")
+
   return(pat)
 }
