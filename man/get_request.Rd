@@ -11,7 +11,7 @@ get_request(url = NULL, user = NULL, key = NULL, ...)
 
 \item{user}{Character account number (e.g. user = '12345') for authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.}
 
-\item{key}{Character key (e.g. key = 'Bearer <secret key>') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.}
+\item{key}{Character key (e.g. key = 'Bearer \link{secret key}') for API authentication. Register at \href{https://id.getharvest.com/developers}{Harvest Developers}.}
 
 \item{...}{Additional arguments, potentially passed to other functions - see details in \link[harvestR]{get_table}}
 }
