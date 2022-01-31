@@ -1,3 +1,7 @@
+# harvestR 1.1.1
+ - Added a generalized scraping routine that should allow the creation of functions for the each of the APIs in a programmatic way with minimal exception handling. 
+ - Added support for the Time Entries API
+ - Added a utility function for rounding up time entries to the nearest decimal hour
 # harvestR 1.1.0
 
 ## General features
