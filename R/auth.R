@@ -21,7 +21,6 @@ get_harvest_account <- function() {
 get_harvest_pat <- function() {
   pat <- Sys.getenv('HARVEST_PAT')
   assertthat::assert_that(pat != "", msg = "HARVEST_PAT is empty, please update and try again. For help updating see ?create_harvest_creds().")
-  assertthat::assert_that(grepl('^Bearer ', pat), msg = "HARVEST_PAT must start with `Bearer `, please update and try again. For help updating see ?create_harvest_creds().")
   return(pat)
 }
 
@@ -107,6 +106,6 @@ ask_harvest_pat <- function (msg="Harvest API Bearer Token"){
   pat <- getPass::getPass(msg)
   assertthat::assert_that(!is.null(pat), msg = "NULL tokens are not accepted, please try again. For more info see ?create_harvest_creds().")
   assertthat::assert_that(pat != "", msg = "Blank tokens are not accepted, please try again. For more info see ?create_harvest_creds().")
-  assertthat::assert_that(grepl('^Bearer ', pat), msg = "Tokens must start with `Bearer `, please try again. For more info see ?create_harvest_creds().")
+
   return(pat)
 }
