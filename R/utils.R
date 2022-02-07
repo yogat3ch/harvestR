@@ -66,7 +66,7 @@ round_time_entries <- function (entries = list_all_time_entries(from = lubridate
       .entry <- NULL
   })
   if (nrow(out)) {
-     out <- dplyr::mutate(out, prev_hours = entries$hours[entries$id == id],
+     out <- dplyr::mutate(out, prev_hours = entries$hours[entries$id %in% id],
                           difference = hours - prev_hours)
      msg <- paste0(paste0(out$id,": ", out$prev_hours, " to ", out$hours), collapse = "\n")
      cli::cli_alert_success("Successfully rounded:\n {cli::col_grey(msg)}\nwhich added {.val {sum(out$difference)}} hrs.")
