@@ -29,8 +29,6 @@ Imports:
     cli,
     curl,
     dplyr,
-    furrr,
-    future,
     getPass,
     glue,
     httr,

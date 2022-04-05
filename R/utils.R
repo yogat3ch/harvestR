@@ -15,9 +15,10 @@ rlang::`%||%`
 
 paginate <- function(resp, .args) {
   out <- httr::content(resp, as = "parsed", encoding = "UTF-8")
+  .tp <- out$total_pages
   if ((out$total_pages %||% 0) > 1) {
     out <- list(out)
-    for (p in 2:out$total_pages) {
+    for (p in 2:.tp) {
       .args$url <- httr::modify_url(.args$url, query = list(page = p))
       resp <- httr::stop_for_status(do.call(httr::RETRY, .args))
       out <- append(out, list(httr::content(resp, as = "parsed", encoding = "UTF-8")))
@@ -33,18 +34,15 @@ to_date <- function(x) {
 
 make_time_entries_tbl <- function(x) {
   if ("time_entries" %in% names(x) || all(names(x) %in% the_time_entry_object$Attribute)) {
-    if ("time_entries" %in% names(x)) {
-      te <- x$time_entries
-      .md <- x[!names(x) %in% "time_entries"]
-    } else
-      te <- list(x)
-
-    out <- purrr::map_dfr(te, ~tibble::tibble_row(!!!purrr::map(.x, ~purrr::when(is.list(.x), . ~ list(.x), .x)))) |>
-      dplyr::mutate(dplyr::across(dplyr::matches("(?:at$)|(?:date$)"), to_date))
-    if (exists(".md", inherits = FALSE))
-      attr(out, "metadata") <- .md
+      out <- purrr::imap(x, ~{
+        purrr::map_dfr(.x$time_entries, ~tibble::tibble_row(!!!purrr::map(.x, ~purrr::when(is.list(.x), . ~ list(.x), .x)))) |>
+          dplyr::mutate(dplyr::across(dplyr::matches("(?:at$)|(?:date$)"), to_date))
+      }) |>
+        dplyr::bind_rows()
+      # sanity check
+      stopifnot(x[[1]]$total_entries == nrow(out))
   } else
-    out
+    out <- x
   return(out)
 }
 
@@ -68,8 +66,21 @@ round_time_entries <- function (entries = list_all_time_entries(from = lubridate
   if (nrow(out)) {
      out <- dplyr::mutate(out, prev_hours = entries$hours[entries$id %in% id],
                           difference = hours - prev_hours)
-     msg <- paste0(paste0(out$id,": ", out$prev_hours, " to ", out$hours), collapse = "\n")
+     msg <- paste0(paste0(out$spent_date,": ", out$prev_hours, " to ", out$hours), collapse = "\n")
      cli::cli_alert_success("Successfully rounded:\n {cli::col_grey(msg)}\nwhich added {.val {sum(out$difference)}} hrs.")
   }
   out
+}
+
+
+time_entry_tag_sums <- function(entries) {
+  tags <- stringr::str_extract_all(entries$notes, "(?<=\\#\\()[^\\)]+(?=\\))") |>
+    unique() |>
+    purrr::keep(UU::is_legit)
+  purrr::map(rlang::set_names(tags), ~{
+    out <- dplyr::filter(entries, stringr::str_detect(notes, .x) %|% FALSE) |>
+      dplyr::mutate(id = purrr::map_dbl(user, "id"), name = purrr::map_chr(user, "name")) |>
+      dplyr::group_by(id, name) |>
+      dplyr::summarise(hours = sum(rounded_hours))
+  })
 }
