@@ -34,13 +34,11 @@ to_date <- function(x) {
 
 make_time_entries_tbl <- function(x) {
   if ("time_entries" %in% names(x) || all(names(x) %in% the_time_entry_object$Attribute)) {
-      out <- purrr::imap(x, ~{
-        purrr::map_dfr(.x$time_entries, ~tibble::tibble_row(!!!purrr::map(.x, ~purrr::when(is.list(.x), . ~ list(.x), .x)))) |>
-          dplyr::mutate(dplyr::across(dplyr::matches("(?:at$)|(?:date$)"), to_date))
-      }) |>
-        dplyr::bind_rows()
+    out <- purrr::map_dfr(x$time_entries, ~ tibble::tibble_row(!!!purrr::map(.x, ~purrr::when(is.list(.x), . ~ list(.x), .x)))) |>
+      dplyr::mutate(dplyr::across(dplyr::matches("(?:at$)|(?:date$)"), to_date))
+
       # sanity check
-      stopifnot(x[[1]]$total_entries == nrow(out))
+      stopifnot(x$total_entries == nrow(out))
   } else
     out <- x
   return(out)
@@ -74,7 +72,7 @@ round_time_entries <- function (entries = list_all_time_entries(from = lubridate
 
 
 time_entry_tag_sums <- function(entries) {
-  tags <- stringr::str_extract_all(entries$notes, "(?<=\\#\\()[^\\)]+(?=\\))") |>
+  tags <- stringr::str_extract_all(entries$notes, "\\#[^\\s]+") |>
     unique() |>
     purrr::keep(UU::is_legit)
   purrr::map(rlang::set_names(tags), ~{
