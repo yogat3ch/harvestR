@@ -76,8 +76,16 @@ round_time_entries <- function (entries = list_all_time_entries(from = lubridate
 }
 
 
+#' Summarize by feature tags
+#'
+#' @param entries
+#'
+#' @return \code{list}
+#' @export
+
+
 time_entry_tag_sums <- function(entries) {
-  tags <- stringr::str_extract_all(entries$notes, "\\#[^\\s]+") |>
+  tags <- stringr::str_extract_all(entries$notes, "\\#[A-Z]{1,4}[0-9\\.]*") |>
     unique() |>
     purrr::keep(UU::is_legit)
   purrr::map(rlang::set_names(tags), ~{
