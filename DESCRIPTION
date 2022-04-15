@@ -15,6 +15,7 @@ Depends: R (>= 3.4.3)
 Imports: assertthat, cli, curl, dplyr, furrr, future, getPass, glue,
          httr, jsonlite, keyring, lifecycle, lubridate, purrr, ratelimitr, rlang,
          rvest, snakecase, stringr, tibble, UU, xml2
+Remotes: yogat3ch/UU
 Suggests: testthat
 RdMacros: lifecycle
 Roxygen: list(markdown = TRUE)
