@@ -33,14 +33,19 @@ to_date <- function(x) {
 }
 
 make_time_entries_tbl <- function(x) {
-  if ("time_entries" %in% names(x) || all(names(x) %in% the_time_entry_object$Attribute)) {
+  if ("time_entries" %in% names(x)) {
     out <- purrr::map_dfr(x$time_entries, ~ tibble::tibble_row(!!!purrr::map(.x, ~purrr::when(is.list(.x), . ~ list(.x), .x)))) |>
       dplyr::mutate(dplyr::across(dplyr::matches("(?:at$)|(?:date$)"), to_date))
 
       # sanity check
       stopifnot(x$total_entries == nrow(out))
-  } else
-    out <- x
+  } else {
+    out <- purrr::keep(x, ~"time_entries" %in% names(.x)) |>
+      purrr::map_dfr(~purrr::map_dfr(.x$time_entries, ~ tibble::tibble_row(!!!purrr::map(.x, ~purrr::when(is.list(.x), . ~ list(.x), .x)))) |>
+                       dplyr::mutate(dplyr::across(dplyr::matches("(?:at$)|(?:date$)"), to_date)))
+
+  }
+
   return(out)
 }
 
